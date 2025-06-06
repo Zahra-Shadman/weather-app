@@ -1,7 +1,10 @@
 import "./App.css";
+import LoginPage from "./components/loginPage";
 
 function App() {
-  return <div className="underline">hello app</div>;
+  return <div>
+    <LoginPage />
+    </div>;
 }
 
 export default App;
