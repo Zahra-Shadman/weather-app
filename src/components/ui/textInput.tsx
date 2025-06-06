@@ -11,7 +11,7 @@ export default function BasicTextFields() {
     >
       <TextField
         id="outlined-basic"
-        label="Outlined"
+        label="Enter Your Username"
         variant="outlined"
         fullWidth 
       />

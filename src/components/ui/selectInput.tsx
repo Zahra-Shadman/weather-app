@@ -14,20 +14,17 @@ export default function SelectVariants() {
   return (
     <div>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-standard-label">language</InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
           value={age}
           onChange={handleChange}
-          label="Age"
+          label="language"
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+
+          <MenuItem value={'en'}>English</MenuItem>
+          <MenuItem value={'fa'}>Farsi</MenuItem>
         </Select>
       </FormControl>
  
