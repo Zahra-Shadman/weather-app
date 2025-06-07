@@ -1,28 +1,55 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SelectVariants from "./ui/selectInput";
-import BasicTextFields from "./ui/textInput";
+import UsernameInput from "./ui/textInput";
 import Button from "@mui/material/Button";
 
 const LoginPage: React.FC = () => {
-  const [login, setLogin] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (username.trim()) {
+      console.log("Username:", username);
+      localStorage.setItem("username", username);
+
+      navigate("/dashboard");
+    } else {
+      setError("Username should not be empty");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-blue-50 flex flex-col items-center px-4 p-6 sm:p-8 lg:p-4">
+    <div className="min-h-screen bg-blue-50 dark:bg-[#151D32] flex flex-col items-center px-4 p-6 sm:p-8 lg:p-4">
       <div className="flex justify-center w-full">
         <div className="bg-white w-full max-w-6xl rounded-xl min-h-[590px] flex flex-col lg:flex-row overflow-hidden shadow-lg">
-          <div className="flex flex-col gap-12 lg:gap-12 px-6 sm:px-8 lg:px-14 flex-1 justify-center py-8 lg:py-0">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-12 lg:gap-12 px-6 sm:px-8 lg:px-14 flex-1 justify-center py-8 lg:py-0"
+          >
             <div className="flex flex-col w-full items-center gap-6">
               <h1 className="font-sans text-xl sm:text-3xl text-[#050F24] font-bold">
                 Login
               </h1>
               <div className="w-full max-w-md">
-                <BasicTextFields />
+                <UsernameInput
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
               </div>
             </div>
             <div className="w-full max-w-md mx-auto mt-36">
-               <Button variant="contained" className="w-full h-[46px] ">LOGIN</Button>
-
+              <Button
+                type="submit"
+                variant="contained"
+                className="w-full h-[46px] "
+              >
+                LOGIN
+              </Button>
             </div>
-          </div>
+          </form>
 
           <div className="hidden lg:flex flex-1 bg-[#D3E1E7] flex-col justify-center items-center relative p-8">
             <div className="absolute top-8 right-8">
