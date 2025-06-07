@@ -7,10 +7,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Roboto: ['Roboto-Italic-VariableFont_wdth,wght.ttf', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
       },
     },
   },
   plugins: [],
 }
-
