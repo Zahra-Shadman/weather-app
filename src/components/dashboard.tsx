@@ -1,5 +1,7 @@
 import React from "react";
 import { MdOutlineSettings } from "react-icons/md";
+import TextField from "@mui/material/TextField";
+import SelectDemo from "./ui/searshInput";
 
 const Dashboard: React.FC = () => {
   return (
@@ -9,7 +11,9 @@ const Dashboard: React.FC = () => {
           <img src="./logo.svg" alt="logo" />
           <p className="font-roboto">Weather Dashboard</p>
         </div>
-        <div>
+        <div className="flex items-center gap-5">
+          <SelectDemo/>
+
           <button
             type="button"
             className="w-10 h-10 border-2 border-[#BBC1C4] p-2 rounded-lg flex items-center justify-center text-[#BBC1C4] focus:border-blue-500 focus:bg-blue-100 focus:text-blue-500 transition-colors duration-300"
