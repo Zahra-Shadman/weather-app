@@ -1,18 +1,23 @@
 import React from "react";
+import { MdOutlineSettings } from "react-icons/md";
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="min-h-screen bg-blue-50 dark:bg-[#151D32] flex flex-col items-center px-4 p-6 sm:p-8 lg:p-4">
-      <div className="flex justify-center w-full">
-        <div className="bg-white w-full max-w-6xl rounded-xl min-h-[590px] flex flex-col lg:flex-row overflow-hidden shadow-lg">
-          <div className="flex flex-col gap-12 lg:gap-12 px-6 sm:px-8 lg:px-14 flex-1 justify-center py-8 lg:py-0">
-            <h1 className="font-sans text-xl sm:text-3xl text-[#050F24] font-bold">
-              Dashboard
-            </h1>
-            <p>Welcome to the dashboard!</p>
-          </div>
+    <div className="min-h-screen bg-[#F3FAFE] dark:bg-[#151D32]">
+      <nav className="bg-[#F3FAFE] h-20 flex items-center justify-between px-4 sm:px-6 lg:px-8 shadow-lg">
+        <div className="flex items-center gap-2 text-[#003464] dark:text-[#A7C6ED]">
+          <img src="./logo.svg" alt="logo" />
+          <p className="font-roboto">Weather Dashboard</p>
         </div>
-      </div>
+        <div>
+          <button
+            type="button"
+            className="w-10 h-10 border-2 border-[#BBC1C4] p-2 rounded-lg flex items-center justify-center text-[#BBC1C4] focus:border-blue-500 focus:bg-blue-100 focus:text-blue-500 transition-colors duration-300"
+          >
+            <MdOutlineSettings className="w-6 h-6" />
+          </button>
+        </div>
+      </nav>
     </div>
   );
 };
