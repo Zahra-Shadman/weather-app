@@ -25,13 +25,11 @@ const Navbar: React.FC<NavbarProps> = ({ city, setCity }) => {
   };
 
   const handleModeChange = (mode: "light" | "dark") => {
-    // اینجا می‌تونید منطق تغییر تم رو اضافه کنید
     console.log(`Mode changed to: ${mode}`);
     handleClose();
   };
 
   const handleLanguageChange = (language: "en" | "fa") => {
-    // اینجا می‌تونید منطق تغییر زبان رو اضافه کنید
     console.log(`Language changed to: ${language}`);
     handleClose();
   };

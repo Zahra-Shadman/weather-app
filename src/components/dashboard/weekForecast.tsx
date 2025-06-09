@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import WeatherImageSelector from "./imageSelector";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";

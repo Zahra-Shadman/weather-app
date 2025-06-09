@@ -1,6 +1,4 @@
 import { MdOutlineMail } from "react-icons/md";
-
-// DateTimeDisplay Component
 const DateTimeDisplay = () => {
   const now = new Date();
 
