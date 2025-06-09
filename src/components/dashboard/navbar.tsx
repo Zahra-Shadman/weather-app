@@ -1,5 +1,5 @@
 import { MdOutlineSettings } from "react-icons/md";
-import SelectDemo from "./mui/searshInput";
+import SelectDemo from "./selectCity";
 
 export default function Navbar() {
   return (

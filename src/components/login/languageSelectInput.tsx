@@ -2,8 +2,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
-import { useLanguage } from "../../utils/loginTranslator";
 import type { Language } from "../../types/Language";
+import { useLanguage } from "../../utils/loginTranslator";
 
 export default function SelectVariants() {
   const { language, setLanguage, translations } = useLanguage();

@@ -1,4 +1,5 @@
 import { IoLocation } from "react-icons/io5";
+import DateTimeDisplay from "./DateTime";
 
 export default function CurrentTemperature() {
   return (
@@ -9,11 +10,8 @@ export default function CurrentTemperature() {
             <IoLocation />
             <h1 className=""> San Francisco</h1>
           </div>
-          <div className="flex flex-col py-4">
-            <h1 className="text-3xl text-[#003464]">Monday</h1>
-            <span className="flex gap-5 text-sm font-roboto  text-[#003464] py-1 ">
-              24 Dec, 2023 <span>11:45 AM</span>
-            </span>
+          <div className="flex flex-col">
+        <DateTimeDisplay />
           </div>
           <div>
             <h1 className="text-[#003464] text-4xl font "> 26° C</h1>

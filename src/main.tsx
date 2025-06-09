@@ -4,8 +4,8 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LanguageProvider } from "./utils/loginTranslator";
 import App from "./App.tsx";
-import Dashboard from "./components/dashboard.tsx";
-import NotFoundPage from "./components/notFound.tsx";
+import Dashboard from "./components/dashboard/dashboard.tsx";
+import NotFoundPage from "./components/login/notFound.tsx";
 
 const router = createBrowserRouter([
   {

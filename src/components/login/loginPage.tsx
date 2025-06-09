@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SelectVariants from "./mui/languageSelectInput";
 import Button from "@mui/material/Button";
-import { useLanguage } from "../utils/loginTranslator";
+import { useLanguage } from "../../utils/loginTranslator";
+import SelectVariants from "./languageSelectInput";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>("");
