@@ -15,6 +15,58 @@ const SelectCity: React.FC<SelectCityProps> = ({ city, setCity }) => {
     setCity(event.target.value as string);
   };
 
+  const cities = [
+    "Tehran",
+    "New York",
+    "Los Angeles",
+    "Chicago",
+    "Houston",
+    "Philadelphia",
+    "Phoenix",
+    "San Antonio",
+    "San Diego",
+    "Dallas",
+    "San Francisco",
+    "London",
+    "Birmingham",
+    "Manchester",
+    "Glasgow",
+    "Liverpool",
+    "Leeds",
+    "Sheffield",
+    "Edinburgh",
+    "Bristol",
+    "Paris",
+    "Marseille",
+    "Lyon",
+    "Toulouse",
+    "Nice",
+    "Nantes",
+    "Strasbourg",
+    "Montpellier",
+    "Bordeaux",
+    "Berlin",
+    "Hamburg",
+    "Munich",
+    "Cologne",
+    "Frankfurt",
+    "Stuttgart",
+    "Dusseldorf",
+    "Dortmund",
+    "Essen",
+    "Rome",
+    "Milan",
+    "Naples",
+    "Turin",
+    "Palermo",
+    "Genoa",
+    "Bologna",
+    "Florence",
+    "Venice",
+    "Madrid",
+    "Barcelona"
+  ];
+
   return (
     <Box>
       <FormControl sx={{ m: 1, minWidth: 295 }} size="small">
@@ -27,22 +79,11 @@ const SelectCity: React.FC<SelectCityProps> = ({ city, setCity }) => {
           label="Select Your Location"
           onChange={handleChange}
         >
-          <MenuItem value={"Tehran"}>Tehran</MenuItem>
-          <MenuItem value={"New York"}>New York</MenuItem>
-          <MenuItem value={"Paris"}>Paris</MenuItem>
-          <MenuItem value={"Tokyo"}>Tokyo</MenuItem>
-          <MenuItem value={"London"}>London</MenuItem>
-          <MenuItem value={"Rome"}>Rome</MenuItem>
-          <MenuItem value={"Berlin"}>Berlin</MenuItem>
-          <MenuItem value={"Dubai"}>Dubai</MenuItem>
-          <MenuItem value={"Barcelona"}>Barcelona</MenuItem>
-          <MenuItem value={"Sydney"}>Sydney</MenuItem>
-          <MenuItem value={"Istanbul"}>Istanbul</MenuItem>
-          <MenuItem value={"Los Angeles"}>Los Angeles</MenuItem>
-          <MenuItem value={"Bangkok"}>Bangkok</MenuItem>
-          <MenuItem value={"San Francisco"}>San Francisco</MenuItem>
-          <MenuItem value={"Toronto"}>Toronto</MenuItem>
-          <MenuItem value={"Moscow"}>Moscow</MenuItem>
+          {cities.map((cityName) => (
+            <MenuItem key={cityName} value={cityName}>
+              {cityName}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>

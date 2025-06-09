@@ -108,7 +108,7 @@ export default function WeekForecast({ city }: WeekForecastProps) {
 
       <div className="w-[1264px] ml-1 h-[350px] p-6 bg-[#E1E9EE] rounded-3xl shadow-md">
         <h2 className="text-xl font-semibold text-[#003464] ">
-          5-Day Forecast
+          weekly Forecast
         </h2>
 
         <div className="flex justify-between items-center h-full">

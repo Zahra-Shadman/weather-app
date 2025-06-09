@@ -16,7 +16,7 @@ const WeatherImageSelector: React.FC<WeatherImageSelectorProps> = ({ description
 
   return (
     <img
-      className="w-46 h-32"
+      className="w-38 h-24"
       src={getWeatherImage(description)}
       alt="weather icon"
     />

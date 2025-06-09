@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
           <div className="w-[604px] h-[234px] bg-[#E1E9EE] rounded-3xl shadow-md text-xl font-semibold">
             <CurrentTemperature city={selectedCity} />
           </div>
-          <AverageTemperature />
+          <AverageTemperature city={selectedCity} />
         </div>
         <WeekForecast city={selectedCity} />
         <Footer />
