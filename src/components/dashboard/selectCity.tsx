@@ -5,9 +5,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
 
-export default function BasicSelect() {
-  const [city, setCity] = React.useState("");
+interface SelectCityProps {
+  city: string;
+  setCity: (city: string) => void;
+}
 
+const SelectCity: React.FC<SelectCityProps> = ({ city, setCity }) => {
   const handleChange = (event: SelectChangeEvent) => {
     setCity(event.target.value as string);
   };
@@ -44,4 +47,6 @@ export default function BasicSelect() {
       </FormControl>
     </Box>
   );
-}
+};
+
+export default SelectCity;
