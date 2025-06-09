@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SelectVariants from "./ui/languageSelectInput";
+import SelectVariants from "./mui/languageSelectInput";
 import Button from "@mui/material/Button";
 import { useLanguage } from "../utils/loginTranslator";
 

@@ -1,28 +1,26 @@
 import React from "react";
-import { MdOutlineSettings } from "react-icons/md";
-import TextField from "@mui/material/TextField";
-import SelectDemo from "./ui/searshInput";
+import Navbar from "./navbar";
+import WeekForecast from "./dashboard/weekForecast";
+import AverageTemperature from "./dashboard/AverageTemprature";
+import CurrentTemperature from "./dashboard/currentTemperature";
+import Footer from "./footer";
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#F3FAFE] dark:bg-[#151D32]">
-      <nav className="bg-[#F3FAFE] h-20 flex items-center justify-between px-4 sm:px-6 lg:px-8 shadow-lg">
-        <div className="flex items-center gap-2 text-[#003464] dark:text-[#A7C6ED]">
-          <img src="./logo.svg" alt="logo" />
-          <p className="font-roboto">Weather Dashboard</p>
+    <div className="min-h-screen bg-[#F3FAFE] dark:bg-[#151D32] flex flex-col">
+      <Navbar />
+      <main className="max-w-[1320px] mx-auto p-6 flex flex-col gap-6">
+        <div className="flex  p-2 gap-4">
+          <div className="w-[604px] h-[234px] bg-[#E1E9EE] rounded-3xl shadow-md  text-xl font-semibold">
+            <CurrentTemperature />
+          </div>
+          <AverageTemperature />
         </div>
-        <div className="flex items-center gap-5">
-          <SelectDemo/>
-
-          <button
-            type="button"
-            className="w-10 h-10 border-2 border-[#BBC1C4] p-2 rounded-lg flex items-center justify-center text-[#BBC1C4] focus:border-blue-500 focus:bg-blue-100 focus:text-blue-500 transition-colors duration-300"
-          >
-            <MdOutlineSettings className="w-6 h-6" />
-          </button>
-        </div>
-      </nav>
+        <WeekForecast />
+        <Footer />
+      </main>
     </div>
   );
 };
+
 export default Dashboard;
