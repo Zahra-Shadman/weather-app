@@ -1,5 +1,32 @@
 import { MdOutlineMail } from "react-icons/md";
 
+// DateTimeDisplay Component
+const DateTimeDisplay = () => {
+  const now = new Date();
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formattedDate = now.toLocaleDateString("en-US", options);
+  const formattedTime = now.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  return (
+    <span className="flex items-center gap-2">
+      <img src="./calendar_month.svg" alt="" />
+      <span className="flex gap-3">
+        <h1>{formattedTime}</h1>.<h1>{formattedDate}</h1>
+      </span>
+    </span>
+  );
+};
+
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-[#F3FAFE] via-[#CCDDDD9E] to-[#F3FAFE] h-26 w-full min-w-full flex justify-between items-center">
@@ -15,12 +42,7 @@ export default function Footer() {
           <MdOutlineMail className="w-5 h-[19px]" />
           <h1>contact us : info@nadin.ir</h1>
         </span>
-        <span className="flex items-center gap-2">
-          <img src="./calendar_month.svg" alt="" />
-          <span className="flex gap-3">
-            <h1>12:25 </h1>.<h1> Monday 23 December 2023</h1>
-          </span>
-        </span>
+        <DateTimeDisplay />
       </div>
     </footer>
   );
