@@ -27,6 +27,7 @@ interface IWeeklyWeatherData {
 
 interface IWeekForecastProps {
   city: string;
+  isDarkMode: boolean;
 }
 
 interface IDailyForecast {
@@ -37,7 +38,7 @@ interface IDailyForecast {
   icon: string;
 }
 
-export default function WeekForecast({ city }: IWeekForecastProps) {
+export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
   const [weeklyWeather, setWeeklyWeather] = useState<IWeeklyWeatherData | null>(
     null
   );
@@ -89,7 +90,7 @@ export default function WeekForecast({ city }: IWeekForecastProps) {
   const dailyForecasts = weeklyWeather ? processDailyData(weeklyWeather) : [];
 
   return (
-    <div className="">
+    <div className="relative">
       <WeeklyDataFetcher
         city={city}
         onDataFetched={setWeeklyWeather}
@@ -104,11 +105,23 @@ export default function WeekForecast({ city }: IWeekForecastProps) {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      {error && <div className="text-red-500 text-center p-4">{error}</div>}
+      {error && (
+        <div className={`text-red-500 dark:text-red-400 text-center p-4`}>
+          {error}
+        </div>
+      )}
 
-      <div className="w-[1264px] ml-1 h-[350px] p-6 bg-[#E1E9EE] rounded-3xl shadow-md">
-        <h2 className="text-xl font-semibold text-[#003464] ">
-          weekly Forecast
+      <div
+        className={`w-[1264px] ml-1 h-[350px] p-6 rounded-3xl shadow-md ${
+          isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
+        }`}
+      >
+        <h2
+          className={`text-2xl font-Inter font-semibold ${
+            isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
+          }`}
+        >
+          2 weeks Forecast
         </h2>
 
         <div className="flex justify-between items-center h-full">
@@ -116,12 +129,20 @@ export default function WeekForecast({ city }: IWeekForecastProps) {
             dailyForecasts.map((forecast, index) => (
               <div
                 key={index}
-                className="w-40 h-64 rounded-3xl text-[#003464] bg-[#CDD9E0] flex flex-col items-center justify-center gap-3 p-4"
+                className={`w-40 h-64 rounded-3xl flex flex-col items-center justify-center gap-3 p-4 ${
+                  isDarkMode
+                    ? "bg-[#3F4861] text-[#F3F4F7]"
+                    : "bg-[#CDD9E0] text-[#003464]"
+                }`}
               >
                 <p className="text-sm font-medium text-center">
                   {forecast.dayName}
                 </p>
-                <span className="w-full border-t border-[#003464] opacity-30"></span>
+                <span
+                  className={`w-full border-t ${
+                    isDarkMode ? "border-[#F3F4F7]" : "border-[#003464]"
+                  } opacity-30`}
+                ></span>
                 <div className="flex justify-center">
                   <WeatherImageSelector description={forecast.description} />
                 </div>
@@ -133,7 +154,11 @@ export default function WeekForecast({ city }: IWeekForecastProps) {
             ))
           ) : (
             <div className="w-full flex justify-center items-center">
-              <p className="text-[#003464] text-lg">
+              <p
+                className={`text-lg ${
+                  isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
+                }`}
+              >
                 {loading ? "Loading..." : "Please select a city"}
               </p>
             </div>

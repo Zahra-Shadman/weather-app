@@ -9,11 +9,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import axios from "axios";
-import type { IAverageTemperatureProps, IAverageWeatherData, ICityCoordinates } from "../../types/AvergeTemprature";
+import type { IAverageWeatherData, ICityCoordinates } from "../../types/AvergeTemprature";
 
+interface IAverageTemperaturePropsExtended {
+  city: string;
+  isDarkMode: boolean;
+}
 
-
-const AverageTemperature: React.FC<IAverageTemperatureProps> = ({ city }) => {
+const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, isDarkMode }) => {
   const [weatherData, setWeatherData] = useState<IAverageWeatherData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -145,8 +148,14 @@ const AverageTemperature: React.FC<IAverageTemperatureProps> = ({ city }) => {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white/90 backdrop-blur-sm p-3 border border-white/20 rounded-xl shadow-xl">
-          <p className="font-semibold text-gray-700">{`${label}`}</p>
+        <div className={`backdrop-blur-sm p-3 border rounded-xl shadow-xl ${
+          isDarkMode 
+            ? "bg-[#292F45] border-white/20 text-[#F3F4F7]" 
+            : "bg-white/90 border-white/20 text-gray-700"
+        }`}>
+          <p className={`font-semibold ${isDarkMode ? "text-[#F3F4F7]" : "text-gray-700"}`}>
+            {`${label}`}
+          </p>
           <p className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#9F7AEA] font-bold">
             {`${payload[0].value}°C`}
           </p>
@@ -158,7 +167,9 @@ const AverageTemperature: React.FC<IAverageTemperatureProps> = ({ city }) => {
 
   if (loading) {
     return (
-      <div className="w-[740px] h-[234px] bg-[#E1E9EE] rounded-3xl shadow-md flex items-center justify-center">
+      <div className={`w-[740px] h-[234px] rounded-3xl shadow-md flex items-center justify-center ${
+        isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
+      }`}>
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -166,18 +177,32 @@ const AverageTemperature: React.FC<IAverageTemperatureProps> = ({ city }) => {
 
   if (error) {
     return (
-      <div className="w-[740px] h-[234px] bg-[#E1E9EE] rounded-3xl shadow-md flex items-center justify-center">
+      <div className={`w-[740px] h-[234px] rounded-3xl shadow-md flex items-center justify-center ${
+        isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
+      }`}>
         <div className="text-center">
-          <p className="text-red-600 font-semibold">Error Loading Data</p>
-          <p className="text-sm text-gray-600 mt-1">{error}</p>
+          <p className={`font-semibold ${
+            isDarkMode ? "text-red-400" : "text-red-600"
+          }`}>
+            Error Loading Data
+          </p>
+          <p className={`text-sm mt-1 ${
+            isDarkMode ? "text-[#F3F4F7]" : "text-gray-600"
+          }`}>
+            {error}
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-[740px] h-[234px] bg-gradient-to-br from-[#E8F4FD] to-[#D1E7F7] rounded-3xl shadow-md p-6">
-      <h2 className="text-xl font-bold text-left mb-4 text-[#4A5568]">
+    <div className={`w-[740px] h-[256px] rounded-3xl shadow-md p-6 ${
+      isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
+    }`}>
+      <h2 className={`font-semibold text-[18px] font-sans text-left mb-4 ${
+        isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
+      }`}>
         Average Monthly Temperature
       </h2>
       <div className="h-[170px]">
@@ -206,19 +231,19 @@ const AverageTemperature: React.FC<IAverageTemperatureProps> = ({ city }) => {
             </defs>
             <CartesianGrid
               strokeDasharray="2 2"
-              stroke="rgba(0, 0, 0, 0.1)"
+              stroke={isDarkMode ? "rgba(243, 244, 247, 0.2)" : "rgba(0, 0, 0, 0.1)"}
               horizontal={true}
               vertical={false}
             />
             <XAxis
               dataKey="month"
-              tick={{ fontSize: 11, fill: "#718096" }}
+              tick={{ fontSize: 11, fill: isDarkMode ? "#F3F4F7" : "#718096" }}
               axisLine={false}
               tickLine={false}
               dy={5}
             />
             <YAxis
-              tick={{ fontSize: 11, fill: "#718096" }}
+              tick={{ fontSize: 11, fill: isDarkMode ? "#F3F4F7" : "#718096" }}
               axisLine={false}
               tickLine={false}
               dx={-5}

@@ -1,13 +1,20 @@
-const DateTimeDisplay = () => {
-  const now = new Date();
+interface DateTimeDisplayProps {
+  isDarkMode: boolean;
+}
 
-  const options: Intl.DateTimeFormatOptions = {
+const DateTimeDisplay: React.FC<DateTimeDisplayProps> = ({ isDarkMode }) => {
+  const now = new Date();
+  const weekdayOptions: Intl.DateTimeFormatOptions = {
     weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
   };
-  const formattedDate = now.toLocaleDateString("en-US", options);
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+
+  const weekday = now.toLocaleDateString("en-US", weekdayOptions);
+  const formattedDate = now.toLocaleDateString("en-US", dateOptions);
   const formattedTime = now.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -16,8 +23,18 @@ const DateTimeDisplay = () => {
 
   return (
     <div className="flex flex-col w-full py-4">
-      <h1 className="text-3xl text-[#003464]">{formattedDate.split(",")[0]}</h1>
-      <span className="flex gap-5 text-sm font-roboto text-[#003464] py-1 ">
+      <h1 
+        className={`text-[32px] font-roboto font-medium ${
+          isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
+        }`}
+      >
+        {weekday}
+      </h1>
+      <span 
+        className={`flex gap-5 text-sm font-roboto font-normal py-1 ${
+          isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
+        }`}
+      >
         {formattedDate} <span>{formattedTime}</span>
       </span>
     </div>
