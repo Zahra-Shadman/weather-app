@@ -9,25 +9,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import axios from "axios";
+import type { IAverageTemperatureProps, IAverageWeatherData, ICityCoordinates } from "../../types/AvergeTemprature";
 
-interface IAverageTemperatureProps {
-  city: string;
-}
 
-interface IWeatherData {
-  month: string;
-  temperature: number;
-}
-
-interface ICityCoordinates {
-  [key: string]: {
-    latitude: number;
-    longitude: number;
-  };
-}
 
 const AverageTemperature: React.FC<IAverageTemperatureProps> = ({ city }) => {
-  const [weatherData, setWeatherData] = useState<IWeatherData[]>([]);
+  const [weatherData, setWeatherData] = useState<IAverageWeatherData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [cityCoordinates, setCityCoordinates] = useState<ICityCoordinates>({});
@@ -126,7 +113,7 @@ const AverageTemperature: React.FC<IAverageTemperatureProps> = ({ city }) => {
         monthlyData[month].push(temp);
       });
 
-      const chartData: IWeatherData[] = monthNames.map((monthName, index) => {
+      const chartData: IAverageWeatherData[] = monthNames.map((monthName, index) => {
         const temps = monthlyData[index] || [];
         const avgTemp =
           temps.length > 0
