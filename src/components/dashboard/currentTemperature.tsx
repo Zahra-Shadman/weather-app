@@ -89,7 +89,7 @@ const CurrentTemperature: React.FC<ICurrentTemperaturePropsExtended> = ({
   };
 
   return (
-    <div className="relative" dir={isRTL ? "rtl" : "ltr"}>
+    <div className=" w-[340px]  sm:w-[504px]  " dir={isRTL ? "rtl" : "ltr"}>
       <DataFetcher
         city={city}
         onDataFetched={setWeather}
@@ -111,7 +111,7 @@ const CurrentTemperature: React.FC<ICurrentTemperaturePropsExtended> = ({
       )}
       {weather && (
         <section
-          className={`flex justify-between rounded-3xl items-center shadow-md p-4 h-full ${
+          className={`flex justify-between rounded-3xl  items-center shadow-md p-4 h-full ${
             isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
           }`}
         >

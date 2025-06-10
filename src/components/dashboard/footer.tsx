@@ -29,11 +29,11 @@ const DateTimeDisplay: React.FC<DateTimeDisplayProps> = ({ isDarkMode }) => {
   return (
     <span className="flex items-center gap-2" dir={isRTL ? "rtl" : "ltr"}>
       <FaRegCalendarAlt
-        className={`w-6 h-4 ${isDarkMode ? "text-white" : "text-[#003464]"}`}
+        className={`w-5 h-3 ${isDarkMode ? "text-white" : "text-[#003464]"}`}
       />
-      <span className="flex gap-3">
-        <h1 className={isDarkMode ? "text-white" : "text-[#003464]"}>{formattedTime}</h1>.
-        <h1 className={isDarkMode ? "text-white" : "text-[#003464]"}>{formattedDate}</h1>
+      <span className="flex gap-1">
+        <h1 className={`text-xs ${isDarkMode ? "text-white" : "text-[#003464]"}`}>{formattedTime}</h1>
+        <h1 className={`text-xs ${isDarkMode ? "text-white" : "text-[#003464]"}`}>{formattedDate}</h1>
       </span>
     </span>
   );
@@ -59,31 +59,31 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
 
   return (
     <footer
-      className={`h-26 w-full min-w-full flex justify-between items-center ${
+      className={`w-full flex justify-between items-center ${
         isDarkMode
           ? "bg-gradient-to-r from-[#292F45] via-[#3F4861] to-[#151D32]"
           : "bg-gradient-to-r from-[#F3FAFE] via-[#CCDDDD9E] to-[#F3FAFE]"
-      }`}
+      } flex-col md:flex-row`}
       dir={isRTL ? "rtl" : "ltr"}
     >
-      <div className={`flex items-center py-8 ${isRTL ? "pr-8" : "pl-8"}`}>
-        <img src="./footerLogo.svg" alt="logo" />
+      <div className={`flex items-center py-4 px-4 md:px-8 flex-col md:flex-row`}>
+        <img src="./footerLogo.svg" alt="logo" className="w-12" />
         <p
-          className={`font-medium text-sm ${
+          className={`font-medium text-xs ${
             isDarkMode ? "text-white" : "text-[#003464]"
-          } ${isRTL ? "mr-4" : "ml-4"}`}
+          } ${isRTL ? "mr-2 md:ml-4" : "ml-2 md:ml-4"} text-center md:text-left`}
         >
           {translations[language].copyright}
         </p>
       </div>
       <div
-        className={`flex items-center gap-8 ${isRTL ? "pl-8" : "pr-8"} text-sm ${
+        className={`flex items-center gap-4 px-4 md:px-8 text-xs ${
           isDarkMode ? "text-white" : "text-[#003464]"
-        }`}
+        } flex-col md:flex-row`}
       >
-        <span className="flex items-center gap-2">
+        <span className="flex items-center gap-1">
           <MdOutlineMail
-            className={`w-5 h-[19px] ${isDarkMode ? "text-white" : "text-[#003464]"}`}
+            className={`w-4 h-4 ${isDarkMode ? "text-white" : "text-[#003464]"}`}
           />
           <h1>{translations[language].contact}</h1>
         </span>

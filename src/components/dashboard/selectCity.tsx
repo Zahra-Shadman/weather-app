@@ -219,7 +219,7 @@ const SelectCity: React.FC<SelectCityProps> = ({ city, setCity, isDarkMode }) =>
           sx={{
             "& .MuiSelect-select": {
               textAlign: isRTL ? "right" : "left",
-              color: isDarkMode ? "#FFFFFF" : "#000000", 
+              color: isDarkMode ? "#CDD9E0" : "#000000", 
             },
             "& .MuiOutlinedInput-notchedOutline": {
               textAlign: isRTL ? "right" : "left",
@@ -231,7 +231,7 @@ const SelectCity: React.FC<SelectCityProps> = ({ city, setCity, isDarkMode }) =>
                 direction: isRTL ? "rtl" : "ltr",
                 "& .MuiMenuItem-root": {
                   justifyContent: isRTL ? "flex-end" : "flex-start",
-                  color: isDarkMode ? "#FFFFFF" : "#000000", 
+                  color: isDarkMode ? "#000000" : "#000000", 
                 },
               },
             },

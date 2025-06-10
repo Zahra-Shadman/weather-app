@@ -206,24 +206,24 @@ export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
       )}
 
       <div
-        className={`w-[1264px] ml-1 h-[350px] p-6 rounded-3xl shadow-md ${
+        className={`sm:w-[1264px] w-[340px] ml-1 sm:h-[350px] p-6 rounded-3xl shadow-md ${
           isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
         }`}
       >
         <h2
-          className={`text-2xl font-Inter font-semibold ${
+          className={` text-center sm:text-left mb-3 text-2xl font-Inter font-semibold ${
             isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
           }`}
         >
           {translations[language].title}
         </h2>
 
-        <div className={`flex justify-between items-center h-full ${isRTL ? "flex-row-reverse" : "flex-row"}`}>
+        <div className={` flex-col sm:flex  justify-center sm:justify-between items-center h-full ${isRTL ? "flex-row-reverse" : "flex-row"}`}>
           {dailyForecasts.length > 0 ? (
             dailyForecasts.map((forecast, index) => (
               <div
                 key={index}
-                className={`w-40 h-64 rounded-3xl flex flex-col items-center justify-center gap-3 p-4 ${
+                className={`sm:w-40 sm:h-64 mb-4   rounded-3xl flex sm:flex-col items-center justify-center gap-3 p-4 ${
                   isDarkMode
                     ? "bg-[#3F4861] text-[#F3F4F7]"
                     : "bg-[#CDD9E0] text-[#003464]"

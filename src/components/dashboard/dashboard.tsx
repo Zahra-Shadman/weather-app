@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
   return (
     <div
       className={`min-h-screen flex flex-col ${
-        isDarkMode ? "dark bg-[#151D32]" : "bg-[#F3FAFE]"
+        isDarkMode ? "dark bg-[#151D32]" : "bg-[#ffff]"
       }`}
       dir={isRTL ? "rtl" : "ltr"}
     >
@@ -29,21 +29,21 @@ const Dashboard: React.FC = () => {
         toggleTheme={toggleTheme}
       />
       <main className="max-w-[1320px] mx-auto p-6 flex flex-col gap-6">
-        <div className="flex p-2 gap-6 flex-row">
+        <div className="flex p-2 gap-6 flex-col sm:flex-row"> {/* Modified this line */}
           {isRTL ? (
             <>
               <AverageTemperature city={selectedCity} isDarkMode={isDarkMode} />
-              <div className="w-[604px] h-[234px] bg-[#E1E9EE] dark:bg-[#292F45] rounded-3xl shadow-md text-xl font-semibold">
+              <div>
                 <CurrentTemperature city={selectedCity} isDarkMode={isDarkMode} />
               </div>
             </>
           ) : (
-            <>
-              <div className="w-[604px] h-[234px] bg-[#E1E9EE] dark:bg-[#292F45] rounded-3xl shadow-md text-xl font-semibold">
+            <div className="flex gap-12">
+              <div>
                 <CurrentTemperature city={selectedCity} isDarkMode={isDarkMode} />
               </div>
               <AverageTemperature city={selectedCity} isDarkMode={isDarkMode} />
-            </>
+            </div>
           )}
         </div>
         <WeekForecast city={selectedCity} isDarkMode={isDarkMode} />

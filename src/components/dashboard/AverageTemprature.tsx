@@ -187,7 +187,7 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
     if (active && payload && payload.length) {
       return (
         <div
-          className={`backdrop-blur-sm p-3 border rounded-xl shadow-xl ${
+          className={`backdrop-blur-sm p-3 border rounded-xl shadow-xl  ${
             isDarkMode
               ? "bg-[#292F45] border-white/20 text-[#F3F4F7]"
               : "bg-white/90 border-white/20 text-gray-700"
@@ -211,7 +211,7 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
   if (loading) {
     return (
       <div
-        className={`w-[740px] h-[234px] rounded-3xl shadow-md flex items-center justify-center ${
+        className={`w-[300px] h-[234px] rounded-3xl shadow-md flex items-center justify-center ${
           isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
         }`}
         dir={isRTL ? "rtl" : "ltr"}
@@ -247,7 +247,7 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
 
   return (
     <div
-      className={`w-[740px] h-[256px] rounded-3xl shadow-md p-6 ${
+      className={`w-[340px]  sm:w-[704px] h-[256px] rounded-3xl shadow-md p-6 ${
         isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
       }`}
       dir={isRTL ? "rtl" : "ltr"}
