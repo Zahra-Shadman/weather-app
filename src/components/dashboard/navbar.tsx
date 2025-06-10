@@ -78,7 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({ city, setCity, isDarkMode, toggleTheme 
   const navTranslations = navbarTranslations[language];
 
   const SettingsContent = (
-    <div className="p-4 w-64" dir={isRTL ? "rtl" : "ltr"}>
+    <div className="p-4 w-64 overflow-hidden" dir={isRTL ? "rtl" : "ltr"}>
       {/* Mode Section */}
       <div className={`font-medium mb-1 ${isRTL ? "text-right" : "text-left"}`}>
         {navTranslations.mode}

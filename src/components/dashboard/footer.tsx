@@ -59,7 +59,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
 
   return (
     <footer
-      className={`w-full flex justify-between items-center ${
+      className={`w-[340px] sm:w-full flex justify-between items-center ${
         isDarkMode
           ? "bg-gradient-to-r from-[#292F45] via-[#3F4861] to-[#151D32]"
           : "bg-gradient-to-r from-[#F3FAFE] via-[#CCDDDD9E] to-[#F3FAFE]"
