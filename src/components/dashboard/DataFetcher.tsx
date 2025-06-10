@@ -1,16 +1,11 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import type { IWeatherData } from "../../types/WeatherData";
+import type { IdataFetcherProps, IWeatherData } from "../../types/WeatherData";
 
 
-interface DataFetcherProps {
-  city: string;
-  onDataFetched: (data: IWeatherData | null) => void;
-  onError: (error: string | null) => void;
-  onLoading: (loading: boolean) => void;
-}
 
-const DataFetcher: React.FC<DataFetcherProps> = ({ city, onDataFetched, onError, onLoading }) => {
+
+const DataFetcher: React.FC<IdataFetcherProps> = ({ city, onDataFetched, onError, onLoading }) => {
   useEffect(() => {
     const fetchWeather = async () => {
       onLoading(true);

@@ -35,7 +35,7 @@ const CurrentTemperature: React.FC<ICurrentTemperatureProps> = ({ city }) => {
           <div className="flex flex-col justify-center p-4">
             <div className="flex bg-[#CDD9E0] rounded-full p-4 font-normal h-10 flex-row w-full gap-2 text-[#3D4852] items-center">
               <IoLocation />
-              <h1>{weather.name}</h1>
+              <h1 className="px-2">{weather.name}</h1>
             </div>
             <div className="flex flex-col">
               <DateTimeDisplay />
@@ -50,7 +50,7 @@ const CurrentTemperature: React.FC<ICurrentTemperatureProps> = ({ city }) => {
               </span>
             </div>
           </div>
-          <div className="py-2">
+          <div className="py-2 px-3">
             <WeatherImageSelector
               description={weather.weather[0].description}
             />

@@ -1,10 +1,10 @@
-import  { useState } from "react";
+import { useState } from "react";
 import WeatherImageSelector from "./imageSelector";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import WeeklyDataFetcher from "./weeklyFetcher";
 
-interface WeatherItem {
+interface IWeatherItem {
   dt: number;
   main: {
     temp: number;
@@ -18,18 +18,18 @@ interface WeatherItem {
   dt_txt: string;
 }
 
-interface WeeklyWeatherData {
-  list: WeatherItem[];
+interface IWeeklyWeatherData {
+  list: IWeatherItem[];
   city: {
     name: string;
   };
 }
 
-interface WeekForecastProps {
+interface IWeekForecastProps {
   city: string;
 }
 
-interface DailyForecast {
+interface IDailyForecast {
   date: string;
   dayName: string;
   temp: number;
@@ -37,15 +37,15 @@ interface DailyForecast {
   icon: string;
 }
 
-export default function WeekForecast({ city }: WeekForecastProps) {
-  const [weeklyWeather, setWeeklyWeather] = useState<WeeklyWeatherData | null>(
+export default function WeekForecast({ city }: IWeekForecastProps) {
+  const [weeklyWeather, setWeeklyWeather] = useState<IWeeklyWeatherData | null>(
     null
   );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const processDailyData = (data: WeeklyWeatherData): DailyForecast[] => {
-    const dailyData: { [key: string]: WeatherItem[] } = {};
+  const processDailyData = (data: IWeeklyWeatherData): IDailyForecast[] => {
+    const dailyData: { [key: string]: IWeatherItem[] } = {};
 
     data.list.forEach((item) => {
       const date = item.dt_txt.split(" ")[0];
