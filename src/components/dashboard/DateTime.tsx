@@ -9,7 +9,6 @@ const DateTimeDisplay: React.FC<DateTimeDisplayProps> = ({ isDarkMode }) => {
   const { language, isRTL } = useLanguage();
   const now = new Date();
 
-  // تنظیمات فرمت برای انگلیسی و فارسی
   const locale = language === "fa" ? "fa-IR" : "en-US";
 
   const weekdayOptions: Intl.DateTimeFormatOptions = {
@@ -21,7 +20,6 @@ const DateTimeDisplay: React.FC<DateTimeDisplayProps> = ({ isDarkMode }) => {
     year: "numeric",
   };
 
-  // فرمت تاریخ و زمان با توجه به زبان
   const weekday = now.toLocaleDateString(locale, weekdayOptions);
   const formattedDate = now.toLocaleDateString(locale, dateOptions);
   const formattedTime = now.toLocaleTimeString(locale, {

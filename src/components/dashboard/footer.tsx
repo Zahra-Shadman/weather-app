@@ -11,7 +11,6 @@ const DateTimeDisplay: React.FC<DateTimeDisplayProps> = ({ isDarkMode }) => {
   const { language, isRTL } = useLanguage();
   const now = new Date();
 
-  // تنظیمات فرمت برای انگلیسی و فارسی
   const locale = language === "fa" ? "fa-IR" : "en-US";
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -47,7 +46,6 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   const { language, isRTL } = useLanguage();
 
-  // ترجمه‌های متون فوتر
   const translations = {
     en: {
       copyright: "All rights of this site are reserved for Nadin Sadr Aria Engineering Company.",

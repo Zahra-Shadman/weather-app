@@ -45,7 +45,6 @@ const Navbar: React.FC<NavbarProps> = ({ city, setCity, isDarkMode, toggleTheme 
     handleClose();
   };
 
-  // ترجمه‌های اضافی برای navbar
   const navbarTranslations = {
     en: {
       weatherDashboard: "Weather Dashboard",
@@ -79,7 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({ city, setCity, isDarkMode, toggleTheme 
           </p>
         </div>
         <div className="flex items-center gap-5">
-          <SelectCity city={city} setCity={setCity} />
+          <SelectCity city={city} setCity={setCity} isDarkMode={isDarkMode} />
           <button
             name="setting"
             type="button"

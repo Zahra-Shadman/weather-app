@@ -9,7 +9,7 @@ import { useLanguage } from "../../utils/loginTranslator";
 interface SelectCityProps {
   city: string;
   setCity: (city: string) => void;
-  isDarkMode: boolean; // پراپ isDarkMode برای کنترل رنگ متن
+  isDarkMode: boolean; 
 }
 
 type CityTranslations = {
@@ -206,7 +206,7 @@ const SelectCity: React.FC<SelectCityProps> = ({ city, setCity, isDarkMode }) =>
             right: isRTL ? 14 : "auto",
             left: isRTL ? "auto" : 14,
             transformOrigin: isRTL ? "top right" : "top left",
-            color: isDarkMode ? "#FFFFFF" : "#000000", // سفید در دارک مود
+            color: isDarkMode ? "#FFFFFF" : "#000000", 
           }}
         >
           {currentTranslations.selectLocation}
@@ -219,7 +219,7 @@ const SelectCity: React.FC<SelectCityProps> = ({ city, setCity, isDarkMode }) =>
           sx={{
             "& .MuiSelect-select": {
               textAlign: isRTL ? "right" : "left",
-              color: isDarkMode ? "#FFFFFF" : "#000000", // سفید در دارک مود
+              color: isDarkMode ? "#FFFFFF" : "#000000", 
             },
             "& .MuiOutlinedInput-notchedOutline": {
               textAlign: isRTL ? "right" : "left",
@@ -231,7 +231,7 @@ const SelectCity: React.FC<SelectCityProps> = ({ city, setCity, isDarkMode }) =>
                 direction: isRTL ? "rtl" : "ltr",
                 "& .MuiMenuItem-root": {
                   justifyContent: isRTL ? "flex-end" : "flex-start",
-                  color: isDarkMode ? "#FFFFFF" : "#000000", // سفید در دارک مود
+                  color: isDarkMode ? "#FFFFFF" : "#000000", 
                 },
               },
             },

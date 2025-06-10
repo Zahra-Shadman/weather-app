@@ -45,7 +45,6 @@ export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const { language, isRTL } = useLanguage();
 
-  // ترجمه‌های اضافی برای WeekForecast
   const translations = {
     en: {
       title: "2 Weeks Forecast",
@@ -61,12 +60,10 @@ export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
     },
   };
 
-  // تعریف نوع با index signature برای ترجمه‌ها
   interface Translation {
     [key: string]: string;
   }
 
-  // ترجمه توضیحات آب‌وهوا
   const weatherDescriptionTranslations: {
     en: Translation;
     fa: Translation;

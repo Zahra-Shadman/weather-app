@@ -30,7 +30,6 @@ const CurrentTemperature: React.FC<ICurrentTemperaturePropsExtended> = ({
     return description;
   };
 
-  // ترجمه‌های اضافی برای CurrentTemperature
   const temperatureTranslations = {
     en: {
       high: "High",
@@ -46,7 +45,6 @@ const CurrentTemperature: React.FC<ICurrentTemperaturePropsExtended> = ({
     },
   };
 
-  // تعریف نوع با index signature
   interface WeatherDescription {
     [key: string]: string;
   }

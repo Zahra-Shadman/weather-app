@@ -2,23 +2,26 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import { useLanguage } from "../../utils/loginTranslator";
 import SelectVariants from "./languageSelectInput";
 import { IoSunnyOutline } from "react-icons/io5";
 import { IoMoonSharp } from "react-icons/io5";
 
 const SunIcon = () => (
-<IoSunnyOutline className="text-yellow-400" />
+  <IoSunnyOutline className="text-yellow-400" />
 );
 
 const MoonIcon = () => (
- <IoMoonSharp className="text-grey-800" />
+  <IoMoonSharp className="text-grey-800" />
 );
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const navigate = useNavigate();
   const { translations, isRTL } = useLanguage();
 
@@ -28,13 +31,32 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username.trim()) {
-      console.log("Username:", username);
-      localStorage.setItem("username", username);
-      navigate("/dashboard");
-    } else {
+    const trimmedUsername = username.trim();
+
+    if (!trimmedUsername) {
       setError(translations.usernameError);
+      return;
     }
+    if (trimmedUsername.length < 2) {
+      setError("Username must be at least 2 characters long.");
+      return;
+    }
+    if (/^\d+$/.test(trimmedUsername)) {
+      setError("Username cannot be just numbers");
+      return;
+    }
+
+    setError(null);
+    setOpenSnackbar(true);
+    localStorage.setItem("username", trimmedUsername);
+    
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 3000);
+  };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -140,6 +162,20 @@ const LoginPage: React.FC = () => {
       <div className="flex justify-center mt-2 w-full max-w-md">
         <SelectVariants />
       </div>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+        login 
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

@@ -24,7 +24,6 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
   const [cityCoordinates, setCityCoordinates] = useState<ICityCoordinates>({});
   const { language, isRTL } = useLanguage();
 
-  // تعریف نام‌های ماه‌ها بر اساس زبان
   const monthNames = useMemo(
     () =>
       language === "fa"
@@ -59,7 +58,6 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
     [language]
   );
 
-  // ترجمه‌های اضافی برای AverageTemperature
   const translations = {
     en: {
       title: "Average Monthly Temperature",
