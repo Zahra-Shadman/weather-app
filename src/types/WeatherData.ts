@@ -15,3 +15,9 @@ export interface IWeatherData {
 export interface ICurrentTemperatureProps {
   city: string;
 }
+export interface IdataFetcherProps {
+  city: string;
+  onDataFetched: (data: IWeatherData | null) => void;
+  onError: (error: string | null) => void;
+  onLoading: (loading: boolean) => void;
+}

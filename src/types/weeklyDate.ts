@@ -1,4 +1,9 @@
-
+export interface IWeeklyDataFetcherProps {
+  city: string;
+  onDataFetched: (data: IWeeklyWeatherData | null) => void;
+  onError: (error: string | null) => void;
+  onLoading: (loading: boolean) => void;
+}
 export interface IWeatherItem {
   dt: number;
   main: {
@@ -20,9 +25,14 @@ export interface IWeeklyWeatherData {
   };
 }
 
-export interface IWeeklyDataFetcherProps {
+export interface IWeekForecastProps {
   city: string;
-  onDataFetched: (data: IWeeklyWeatherData | null) => void;
-  onError: (error: string | null) => void;
-  onLoading: (loading: boolean) => void;
+}
+
+export interface IDailyForecast {
+  date: string;
+  dayName: string;
+  temp: number;
+  description: string;
+  icon: string;
 }
