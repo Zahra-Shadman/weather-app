@@ -1,150 +1,159 @@
-import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import axios from "axios";
 
-interface AverageTemperatureProps {
+interface IAverageTemperatureProps {
   city: string;
 }
 
-interface WeatherData {
+interface IWeatherData {
   month: string;
   temperature: number;
 }
 
-interface CityCoordinates {
+interface ICityCoordinates {
   [key: string]: {
-    lat: number;
-    lon: number;
+    latitude: number;
+    longitude: number;
   };
 }
 
-const AverageTemperature: React.FC<AverageTemperatureProps> = ({ city }) => {
-  const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
+const AverageTemperature: React.FC<IAverageTemperatureProps> = ({ city }) => {
+  const [weatherData, setWeatherData] = useState<IWeatherData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [cityCoordinates, setCityCoordinates] = useState<ICityCoordinates>({});
 
-  // مختصات شهرها
-  const cityCoordinates: CityCoordinates = {
-  Tehran: { lat: 35.6892, lon: 51.3890 },
-  "New York": { lat: 40.7128, lon: -74.0060 },
-  "Los Angeles": { lat: 34.0522, lon: -118.2437 },
-  Chicago: { lat: 41.8781, lon: -87.6298 },
-  Houston: { lat: 29.7604, lon: -95.3698 },
-  Philadelphia: { lat: 39.9526, lon: -75.1652 },
-  Phoenix: { lat: 33.4484, lon: -112.0740 },
-  "San Antonio": { lat: 29.4241, lon: -98.4936 },
-  "San Diego": { lat: 32.7157, lon: -117.1611 },
-  Dallas: { lat: 32.7767, lon: -96.7970 },
-  "San Francisco": { lat: 37.7749, lon: -122.4194 },
-  London: { lat: 51.5074, lon: -0.1278 },
-  Birmingham: { lat: 52.4862, lon: -1.8904 },
-  Manchester: { lat: 53.4808, lon: -2.2426 },
-  Glasgow: { lat: 55.8642, lon: -4.2518 },
-  Liverpool: { lat: 53.4084, lon: -2.9916 },
-  Leeds: { lat: 53.8008, lon: -1.5491 },
-  Sheffield: { lat: 53.3811, lon: -1.4701 },
-  Edinburgh: { lat: 55.9533, lon: -3.1883 },
-  Bristol: { lat: 51.4545, lon: -2.5879 },
-  Paris: { lat: 48.8566, lon: 2.3522 },
-  Marseille: { lat: 43.2965, lon: 5.3698 },
-  Lyon: { lat: 45.7640, lon: 4.8357 },
-  Toulouse: { lat: 43.6047, lon: 1.4442 },
-  Nice: { lat: 43.7102, lon: 7.2620 },
-  Nantes: { lat: 47.2184, lon: -1.5536 },
-  Strasbourg: { lat: 48.5734, lon: 7.7521 },
-  Montpellier: { lat: 43.6108, lon: 3.8767 },
-  Bordeaux: { lat: 44.8378, lon: -0.5792 },
-  Berlin: { lat: 52.5200, lon: 13.4050 },
-  Hamburg: { lat: 53.5511, lon: 9.9937 },
-  Munich: { lat: 48.1351, lon: 11.5820 },
-  Cologne: { lat: 50.9375, lon: 6.9603 },
-  Frankfurt: { lat: 50.1109, lon: 8.6821 },
-  Stuttgart: { lat: 48.7758, lon: 9.1829 },
-  Dusseldorf: { lat: 51.2277, lon: 6.7735 },
-  Dortmund: { lat: 51.5136, lon: 7.4653 },
-  Essen: { lat: 51.4556, lon: 7.0116 },
-  Rome: { lat: 41.9028, lon: 12.4964 },
-  Milan: { lat: 45.4642, lon: 9.1900 },
-  Naples: { lat: 40.8518, lon: 14.2681 },
-  Turin: { lat: 45.0703, lon: 7.6869 },
-  Palermo: { lat: 38.1157, lon: 13.3615 },
-  Genoa: { lat: 44.4074, lon: 8.9338 },
-  Bologna: { lat: 44.4949, lon: 11.3426 },
-  Florence: { lat: 43.7696, lon: 11.2558 },
-  Venice: { lat: 45.4408, lon: 12.3155 },
-  Madrid: { lat: 40.4168, lon: -3.7038 },
-  Barcelona: { lat: 41.3851, lon: 2.1734 }
-};
-  const monthNames = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ];
+  const monthNames = useMemo(
+    () => [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    []
+  );
+  const fetchCityCoordinates = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=fa`
+      );
 
-  const fetchWeatherData = async () => {
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch city coordinates");
+      }
+
+      const data = response.data;
+
+      if (data.results && data.results.length > 0) {
+        setCityCoordinates({
+          [city]: {
+            latitude: data.results[0].latitude,
+            longitude: data.results[0].longitude,
+          },
+        });
+      } else {
+        setError("City not found");
+      }
+    } catch (error: any) {
+      setError(
+        error.message || "An error occurred while fetching city coordinates"
+      );
+    }
+  }, [city]);
+
+  const fetchWeatherData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const coordinates = cityCoordinates[city];
-      if (!coordinates) {
-        throw new Error('City coordinates not found');
+      if (!city) {
+        throw new Error("City is required");
       }
 
-      // دریافت داده‌های یک سال گذشته
+      if (!cityCoordinates[city]) {
+        await fetchCityCoordinates();
+      }
+
+      const coordinates = cityCoordinates[city];
+
+      if (!coordinates) {
+        throw new Error("City coordinates not found");
+      }
+
       const endDate = new Date();
       const startDate = new Date();
       startDate.setFullYear(endDate.getFullYear() - 1);
 
-      const startDateStr = startDate.toISOString().split('T')[0];
-      const endDateStr = endDate.toISOString().split('T')[0];
+      const startDateStr = startDate.toISOString().split("T")[0];
+      const endDateStr = endDate.toISOString().split("T")[0];
 
-      const response = await fetch(
-        `https://archive-api.open-meteo.com/v1/archive?latitude=${coordinates.lat}&longitude=${coordinates.lon}&start_date=${startDateStr}&end_date=${endDateStr}&daily=temperature_2m_mean&timezone=auto`
-      );
+      const apiUrl = `https://archive-api.open-meteo.com/v1/archive?latitude=${coordinates.latitude}&longitude=${coordinates.longitude}&start_date=${startDateStr}&end_date=${endDateStr}&daily=temperature_2m_mean&timezone=auto`;
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch weather data');
+      const response = await axios.get(apiUrl);
+
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch weather data");
       }
 
-      const data = await response.json();
-      
-      // محاسبه میانگین ماهیانه
+      const data = response.data;
+
       const monthlyData: { [key: number]: number[] } = {};
-      
+
       data.daily.time.forEach((date: string, index: number) => {
         const month = new Date(date).getMonth();
         const temp = data.daily.temperature_2m_mean[index];
-        
+
         if (!monthlyData[month]) {
           monthlyData[month] = [];
         }
         monthlyData[month].push(temp);
       });
 
-      // محاسبه میانگین و تبدیل به فرمت مورد نیاز نمودار
-      const chartData: WeatherData[] = monthNames.map((monthName, index) => {
+      const chartData: IWeatherData[] = monthNames.map((monthName, index) => {
         const temps = monthlyData[index] || [];
-        const avgTemp = temps.length > 0 ? 
-          Math.round(temps.reduce((sum, temp) => sum + temp, 0) / temps.length) : 0;
-        
+        const avgTemp =
+          temps.length > 0
+            ? Math.round(
+                temps.reduce((sum, temp) => sum + temp, 0) / temps.length
+              )
+            : 0;
+
         return {
           month: monthName,
-          temperature: avgTemp
+          temperature: avgTemp,
         };
       });
 
       setWeatherData(chartData);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+    } catch (err: any) {
+      setError(err.message || "An error occurred");
     } finally {
       setLoading(false);
     }
-  };
+  }, [city, cityCoordinates, monthNames, fetchCityCoordinates]);
 
   useEffect(() => {
     if (city) {
       fetchWeatherData();
     }
-  }, [city]);
+  }, [city, fetchWeatherData]);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -186,9 +195,18 @@ const AverageTemperature: React.FC<AverageTemperatureProps> = ({ city }) => {
       </h2>
       <div className="h-[170px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={weatherData} margin={{ top: 10, right: 30, left: 30, bottom: 20 }}>
+          <LineChart
+            data={weatherData}
+            margin={{ top: 10, right: 30, left: 30, bottom: 20 }}
+          >
             <defs>
-              <linearGradient id="temperatureGradient" x1="0" y1="0" x2="1" y2="0">
+              <linearGradient
+                id="temperatureGradient"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="0"
+              >
                 <stop offset="0%" stopColor="#00D4FF" />
                 <stop offset="30%" stopColor="#0099FF" />
                 <stop offset="60%" stopColor="#6B73FF" />
@@ -199,52 +217,52 @@ const AverageTemperature: React.FC<AverageTemperatureProps> = ({ city }) => {
                 <stop offset="100%" stopColor="rgba(159, 122, 234, 0.1)" />
               </linearGradient>
             </defs>
-            <CartesianGrid 
-              strokeDasharray="2 2" 
-              stroke="rgba(0, 0, 0, 0.1)" 
+            <CartesianGrid
+              strokeDasharray="2 2"
+              stroke="rgba(0, 0, 0, 0.1)"
               horizontal={true}
               vertical={false}
             />
-            <XAxis 
-              dataKey="month" 
-              tick={{ fontSize: 11, fill: '#718096' }}
+            <XAxis
+              dataKey="month"
+              tick={{ fontSize: 11, fill: "#718096" }}
               axisLine={false}
               tickLine={false}
               dy={5}
             />
-            <YAxis 
-              tick={{ fontSize: 11, fill: '#718096' }}
+            <YAxis
+              tick={{ fontSize: 11, fill: "#718096" }}
               axisLine={false}
               tickLine={false}
               dx={-5}
-              domain={['dataMin - 5', 'dataMax + 5']}
+              domain={["dataMin - 5", "dataMax + 5"]}
               tickFormatter={(value) => `${value}°`}
             />
-            <Tooltip 
+            <Tooltip
               content={<CustomTooltip />}
-              cursor={{ stroke: 'rgba(0, 0, 0, 0.1)', strokeWidth: 1 }}
+              cursor={{ stroke: "rgba(0, 0, 0, 0.1)", strokeWidth: 1 }}
             />
             <defs>
               <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                <feMerge> 
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
+                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
             </defs>
-            <Line 
-              type="monotone" 
-              dataKey="temperature" 
-              stroke="url(#temperatureGradient)" 
+            <Line
+              type="monotone"
+              dataKey="temperature"
+              stroke="url(#temperatureGradient)"
               strokeWidth={4}
               dot={false}
-              activeDot={{ 
-                r: 6, 
-                stroke: '#fff', 
-                strokeWidth: 3, 
-                fill: '#6B73FF',
-                filter: 'url(#glow)'
+              activeDot={{
+                r: 6,
+                stroke: "#fff",
+                strokeWidth: 3,
+                fill: "#6B73FF",
+                filter: "url(#glow)",
               }}
               filter="url(#glow)"
             />
