@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div
-      className={`min-h-screen min-w-full flex flex-col ${
+      className={`min-h-screen flex flex-col ${
         isDarkMode ? "dark bg-[#151D32]" : "bg-[#ffff]"
       }`}
       dir={isRTL ? "rtl" : "ltr"}
@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
         isDarkMode={isDarkMode}
         toggleTheme={toggleTheme}
       />
-      <main className="max-w-[1380px] mx-auto p-6 flex flex-col ">
+      <main className="max-w-[1320px] mx-auto p-6 flex flex-col gap-6">
         <div className="flex p-2 gap-6 flex-col sm:flex-row"> {/* Modified this line */}
           {isRTL ? (
             <>
@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className=" space-y-3 sm:flex sm:gap-12">
+            <div className=" space-y-8 sm:space-y-0 sm:flex sm:gap-10">
               <div>
                 <CurrentTemperature city={selectedCity} isDarkMode={isDarkMode} />
               </div>
