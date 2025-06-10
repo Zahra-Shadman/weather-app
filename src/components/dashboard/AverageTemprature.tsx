@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import axios from "axios";
+import { useLanguage } from "../../utils/loginTranslator";
 import type { IAverageWeatherData, ICityCoordinates } from "../../types/AvergeTemprature";
 
 interface IAverageTemperaturePropsExtended {
@@ -21,32 +22,73 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [cityCoordinates, setCityCoordinates] = useState<ICityCoordinates>({});
+  const { language, isRTL } = useLanguage();
 
+  // تعریف نام‌های ماه‌ها بر اساس زبان
   const monthNames = useMemo(
-    () => [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
-    []
+    () =>
+      language === "fa"
+        ? [
+            "فروردین",
+            "اردیبهشت",
+            "خرداد",
+            "تیر",
+            "مرداد",
+            "شهریور",
+            "مهر",
+            "آبان",
+            "آذر",
+            "دی",
+            "بهمن",
+            "اسفند",
+          ]
+        : [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ],
+    [language]
   );
+
+  // ترجمه‌های اضافی برای AverageTemperature
+  const translations = {
+    en: {
+      title: "Average Monthly Temperature",
+      errorLoading: "Error Loading Data",
+      cityNotFound: "City not found",
+      fetchError: "An error occurred while fetching city coordinates",
+      weatherFetchError: "An error occurred",
+      cityRequired: "City is required",
+      coordinatesNotFound: "City coordinates not found",
+    },
+    fa: {
+      title: "میانگین دمای ماهانه",
+      errorLoading: "خطا در بارگذاری داده‌ها",
+      cityNotFound: "شهر یافت نشد",
+      fetchError: "خطایی در دریافت مختصات شهر رخ داد",
+      weatherFetchError: "خطایی رخ داد",
+      cityRequired: "نام شهر الزامی است",
+      coordinatesNotFound: "مختصات شهر یافت نشد",
+    },
+  };
+
   const fetchCityCoordinates = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=fa`
+        `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=${language}`
       );
 
       if (response.status !== 200) {
-        throw new Error("Failed to fetch city coordinates");
+        throw new Error(translations[language].fetchError);
       }
 
       const data = response.data;
@@ -59,14 +101,12 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
           },
         });
       } else {
-        setError("City not found");
+        setError(translations[language].cityNotFound);
       }
     } catch (error: any) {
-      setError(
-        error.message || "An error occurred while fetching city coordinates"
-      );
+      setError(error.message || translations[language].fetchError);
     }
-  }, [city]);
+  }, [city, language]);
 
   const fetchWeatherData = useCallback(async () => {
     try {
@@ -74,7 +114,7 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
       setError(null);
 
       if (!city) {
-        throw new Error("City is required");
+        throw new Error(translations[language].cityRequired);
       }
 
       if (!cityCoordinates[city]) {
@@ -84,7 +124,7 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
       const coordinates = cityCoordinates[city];
 
       if (!coordinates) {
-        throw new Error("City coordinates not found");
+        throw new Error(translations[language].coordinatesNotFound);
       }
 
       const endDate = new Date();
@@ -99,7 +139,7 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
       const response = await axios.get(apiUrl);
 
       if (response.status !== 200) {
-        throw new Error("Failed to fetch weather data");
+        throw new Error(translations[language].weatherFetchError);
       }
 
       const data = response.data;
@@ -133,11 +173,11 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
 
       setWeatherData(chartData);
     } catch (err: any) {
-      setError(err.message || "An error occurred");
+      setError(err.message || translations[language].weatherFetchError);
     } finally {
       setLoading(false);
     }
-  }, [city, cityCoordinates, monthNames, fetchCityCoordinates]);
+  }, [city, cityCoordinates, monthNames, fetchCityCoordinates, language]);
 
   useEffect(() => {
     if (city) {
@@ -148,12 +188,17 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className={`backdrop-blur-sm p-3 border rounded-xl shadow-xl ${
-          isDarkMode 
-            ? "bg-[#292F45] border-white/20 text-[#F3F4F7]" 
-            : "bg-white/90 border-white/20 text-gray-700"
-        }`}>
-          <p className={`font-semibold ${isDarkMode ? "text-[#F3F4F7]" : "text-gray-700"}`}>
+        <div
+          className={`backdrop-blur-sm p-3 border rounded-xl shadow-xl ${
+            isDarkMode
+              ? "bg-[#292F45] border-white/20 text-[#F3F4F7]"
+              : "bg-white/90 border-white/20 text-gray-700"
+          }`}
+          dir={isRTL ? "rtl" : "ltr"}
+        >
+          <p
+            className={`font-semibold ${isDarkMode ? "text-[#F3F4F7]" : "text-gray-700"}`}
+          >
             {`${label}`}
           </p>
           <p className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-[#9F7AEA] font-bold">
@@ -167,9 +212,12 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
 
   if (loading) {
     return (
-      <div className={`w-[740px] h-[234px] rounded-3xl shadow-md flex items-center justify-center ${
-        isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
-      }`}>
+      <div
+        className={`w-[740px] h-[234px] rounded-3xl shadow-md flex items-center justify-center ${
+          isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
+        }`}
+        dir={isRTL ? "rtl" : "ltr"}
+      >
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -177,18 +225,21 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
 
   if (error) {
     return (
-      <div className={`w-[740px] h-[234px] rounded-3xl shadow-md flex items-center justify-center ${
-        isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
-      }`}>
+      <div
+        className={`w-[740px] h-[234px] rounded-3xl shadow-md flex items-center justify-center ${
+          isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
+        }`}
+        dir={isRTL ? "rtl" : "ltr"}
+      >
         <div className="text-center">
-          <p className={`font-semibold ${
-            isDarkMode ? "text-red-400" : "text-red-600"
-          }`}>
-            Error Loading Data
+          <p
+            className={`font-semibold ${isDarkMode ? "text-red-400" : "text-red-600"}`}
+          >
+            {translations[language].errorLoading}
           </p>
-          <p className={`text-sm mt-1 ${
-            isDarkMode ? "text-[#F3F4F7]" : "text-gray-600"
-          }`}>
+          <p
+            className={`text-sm mt-1 ${isDarkMode ? "text-[#F3F4F7]" : "text-gray-600"}`}
+          >
             {error}
           </p>
         </div>
@@ -197,13 +248,18 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
   }
 
   return (
-    <div className={`w-[740px] h-[256px] rounded-3xl shadow-md p-6 ${
-      isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
-    }`}>
-      <h2 className={`font-semibold text-[18px] font-sans text-left mb-4 ${
-        isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
-      }`}>
-        Average Monthly Temperature
+    <div
+      className={`w-[740px] h-[256px] rounded-3xl shadow-md p-6 ${
+        isDarkMode ? "bg-[#292F45]" : "bg-[#E1E9EE]"
+      }`}
+      dir={isRTL ? "rtl" : "ltr"}
+    >
+      <h2
+        className={`font-semibold text-[18px] font-sans text-left mb-4 ${
+          isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
+        }`}
+      >
+        {translations[language].title}
       </h2>
       <div className="h-[170px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -246,7 +302,7 @@ const AverageTemperature: React.FC<IAverageTemperaturePropsExtended> = ({ city, 
               tick={{ fontSize: 11, fill: isDarkMode ? "#F3F4F7" : "#718096" }}
               axisLine={false}
               tickLine={false}
-              dx={-5}
+              dx={isRTL ? 5 : -5}
               domain={["dataMin - 5", "dataMax + 5"]}
               tickFormatter={(value) => `${value}°`}
             />

@@ -3,6 +3,7 @@ import WeatherImageSelector from "./imageSelector";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import WeeklyDataFetcher from "./weeklyFetcher";
+import { useLanguage } from "../../utils/loginTranslator";
 
 interface IWeatherItem {
   dt: number;
@@ -39,11 +40,107 @@ interface IDailyForecast {
 }
 
 export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
-  const [weeklyWeather, setWeeklyWeather] = useState<IWeeklyWeatherData | null>(
-    null
-  );
+  const [weeklyWeather, setWeeklyWeather] = useState<IWeeklyWeatherData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { language, isRTL } = useLanguage();
+
+  // ترجمه‌های اضافی برای WeekForecast
+  const translations = {
+    en: {
+      title: "2 Weeks Forecast",
+      error: "Failed to fetch weather data",
+      loading: "Loading...",
+      noCity: "Please select a city",
+    },
+    fa: {
+      title: "پیش‌بینی دو هفته‌ای",
+      error: "دریافت اطلاعات آب‌وهوا ناموفق بود",
+      loading: "در حال بارگذاری...",
+      noCity: "لطفاً یک شهر انتخاب کنید",
+    },
+  };
+
+  // تعریف نوع با index signature برای ترجمه‌ها
+  interface Translation {
+    [key: string]: string;
+  }
+
+  // ترجمه توضیحات آب‌وهوا
+  const weatherDescriptionTranslations: {
+    en: Translation;
+    fa: Translation;
+  } = {
+    en: {
+      "clear sky": "Clear Sky",
+      "few clouds": "Few Clouds",
+      "scattered clouds": "Scattered Clouds",
+      "broken clouds": "Broken Clouds",
+      "shower rain": "Shower Rain",
+      rain: "Rain",
+      thunderstorm: "Thunderstorm",
+      snow: "Snow",
+      mist: "Mist",
+      "overcast clouds": "Overcast Clouds",
+      "moderate rain": "Moderate Rain",
+      "light rain": "Light Rain",
+      haze: "Haze",
+    },
+    fa: {
+      "clear sky": "آسمان صاف",
+      "few clouds": "کمی ابری",
+      "scattered clouds": "ابرهای پراکنده",
+      "broken clouds": "ابرهای شکسته",
+      "shower rain": "باران رگباری",
+      rain: "باران",
+      thunderstorm: "رعد و برق",
+      snow: "برف",
+      mist: "مه",
+      "overcast clouds": "پوشیده از ابر",
+      "moderate rain": "باران معمولی",
+      "light rain": "باران ملایم",
+      haze: "مه",
+    },
+  };
+
+
+
+
+  const dayNamesTranslations: {
+    en: Translation;
+    fa: Translation;
+  } = {
+    en: {
+      Sunday: "Sunday",
+      Monday: "Monday",
+      Tuesday: "Tuesday",
+      Wednesday: "Wednesday",
+      Thursday: "Thursday",
+      Friday: "Friday",
+      Saturday: "Saturday",
+      Today: "Today",
+    },
+    fa: {
+      Sunday: "یک‌شنبه",
+      Monday: "دوشنبه",
+      Tuesday: "سه‌شنبه",
+      Wednesday: "چهارشنبه",
+      Thursday: "پنج‌شنبه",
+      Friday: "جمعه",
+      Saturday: "شنبه",
+      Today: "امروز",
+    },
+  };
+
+  const getTranslatedDescription = (description: string): string => {
+    return weatherDescriptionTranslations[language][description.toLowerCase()] || description;
+  };
+
+ 
+
+  const getTranslatedDayName = (dayName: string): string => {
+    return dayNamesTranslations[language][dayName] || dayName;
+  };
 
   const processDailyData = (data: IWeeklyWeatherData): IDailyForecast[] => {
     const dailyData: { [key: string]: IWeatherItem[] } = {};
@@ -79,9 +176,9 @@ export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
 
         return {
           date,
-          dayName,
+          dayName: getTranslatedDayName(dayName),
           temp: Math.round(midDayItem.main.temp),
-          description: midDayItem.weather[0].description,
+          description: getTranslatedDescription(midDayItem.weather[0].description),
           icon: midDayItem.weather[0].icon,
         };
       });
@@ -90,7 +187,7 @@ export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
   const dailyForecasts = weeklyWeather ? processDailyData(weeklyWeather) : [];
 
   return (
-    <div className="relative">
+    <div className="relative" dir={isRTL ? "rtl" : "ltr"}>
       <WeeklyDataFetcher
         city={city}
         onDataFetched={setWeeklyWeather}
@@ -107,7 +204,7 @@ export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
 
       {error && (
         <div className={`text-red-500 dark:text-red-400 text-center p-4`}>
-          {error}
+          {translations[language].error}
         </div>
       )}
 
@@ -121,10 +218,10 @@ export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
             isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
           }`}
         >
-          2 weeks Forecast
+          {translations[language].title}
         </h2>
 
-        <div className="flex justify-between items-center h-full">
+        <div className={`flex justify-between items-center h-full ${isRTL ? "flex-row-reverse" : "flex-row"}`}>
           {dailyForecasts.length > 0 ? (
             dailyForecasts.map((forecast, index) => (
               <div
@@ -159,7 +256,7 @@ export default function WeekForecast({ city, isDarkMode }: IWeekForecastProps) {
                   isDarkMode ? "text-[#F3F4F7]" : "text-[#003464]"
                 }`}
               >
-                {loading ? "Loading..." : "Please select a city"}
+                {loading ? translations[language].loading : translations[language].noCity}
               </p>
             </div>
           )}
